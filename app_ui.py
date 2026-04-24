@@ -1,0 +1,145 @@
+import streamlit as st
+from fpdf import FPDF
+
+# ---------------- PAGE CONFIG ----------------
+st.set_page_config(page_title="Resume Builder", page_icon="📄", layout="wide")
+
+st.markdown("<h1 style='text-align: center;'>📄 Resume Builder</h1>", unsafe_allow_html=True)
+st.markdown("---")
+
+# ---------------- INPUT UI ----------------
+st.subheader("👤 Personal Information")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    name = st.text_input("Full Name")
+    email = st.text_input("Email")
+
+with col2:
+    phone = st.text_input("Phone")
+    linkedin = st.text_input("LinkedIn URL")
+
+st.markdown("---")
+
+st.subheader("🎓 Education")
+education = st.text_area("Enter your education details (one per line)")
+
+st.subheader("💻 Technical Skills")
+skills = st.text_area("Enter your skills (one per line)")
+
+st.subheader("🏢 Internship Experience")
+internship = st.text_area("Enter internship details (one per line)")
+
+st.subheader("🚀 Projects")
+projects = st.text_area("Enter project details (one per line)")
+
+st.subheader("📜 Certifications")
+certifications = st.text_area("Enter certifications (one per line)")
+
+st.subheader("🧠 Soft Skills")
+soft_skills = st.text_area("Enter soft skills (one per line)")
+
+st.markdown("---")
+
+
+# ---------------- PDF CLASS ----------------
+class ResumePDF(FPDF):
+
+    def header(self):
+        # Name (CENTERED)
+        self.set_font("Arial", "B", 18)
+        self.cell(0, 10, self.name, ln=True, align="C")
+
+        # Contact (CENTERED)
+        self.set_font("Arial", size=11)
+        self.cell(0, 8, f"{self.phone} | {self.email} | {self.linkedin}", ln=True, align="C")
+
+        # Line
+        self.ln(3)
+        self.set_draw_color(100, 100, 100)
+        self.line(10, self.get_y(), 200, self.get_y())
+        self.ln(6)
+
+    def section_title(self, title):
+        self.set_font("Arial", "B", 13)
+        self.cell(0, 8, title, ln=True)
+
+        # underline
+        self.set_draw_color(180, 180, 180)
+        self.line(10, self.get_y(), 200, self.get_y())
+        self.ln(4)
+
+    def section_body(self, text):
+        self.set_font("Arial", size=11)
+        lines = text.split("\n")
+
+        for line in lines:
+            if line.strip() != "":
+                self.cell(5)
+                self.multi_cell(0, 6, f"- {line}")
+        self.ln(2)
+
+    # OPTIONAL: 2 COLUMN SKILLS
+    
+    def skills_two_column(self, skills_text):
+        self.set_font("Arial", size=11)
+        skills = skills_text.split("\n")
+
+        for i in range(0, len(skills), 2):
+            left = skills[i]
+            right = skills[i+1] if i+1 < len(skills) else ""
+
+            self.cell(90, 6, f"- {left}")
+            self.cell(0, 6, f"- {right}", ln=True)
+
+        self.ln(3)
+
+
+# ---------------- GENERATE BUTTON ----------------
+if st.button("🚀 Generate Resume"):
+
+    if not name:
+        st.error("Please enter your name")
+    else:
+        pdf = ResumePDF()
+
+        # Pass values
+        pdf.name = name
+        pdf.phone = phone
+        pdf.email = email
+        pdf.linkedin = linkedin
+
+        pdf.add_page()
+
+        pdf.section_title("EDUCATION")
+        pdf.section_body(education)
+
+        pdf.section_title("TECHNICAL SKILLS")
+        pdf.skills_two_column(skills)   # 👈 2 column effect
+
+        pdf.section_title("INTERNSHIP EXPERIENCE")
+        pdf.section_body(internship)
+
+        pdf.section_title("PROJECTS")
+        pdf.section_body(projects)
+
+        pdf.section_title("CERTIFICATIONS")
+        pdf.section_body(certifications)
+
+        pdf.section_title("SOFT SKILLS")
+        pdf.section_body(soft_skills)
+
+        # Save file
+        pdf.output("resume.pdf")
+
+        # Download button
+        with open("resume.pdf", "rb") as f:
+            st.download_button(
+                label="📥 Download Resume",
+                data=f,
+                file_name="Resume.pdf",
+                mime="application/pdf"
+            )
+
+        st.success("✅ Resume Generated Successfully!")
