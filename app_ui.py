@@ -116,7 +116,6 @@ def show_ui():
         html = html.replace("{{linkedin}}", linkedin)
         html = html.replace("{{github}}", github)
         html = html.replace("{{summary}}", summary)
-
         html = html.replace("{{education}}", education)
         html = html.replace("{{skills}}", skills)
         html = html.replace("{{internship}}", internship)
@@ -128,7 +127,8 @@ def show_ui():
         st.components.v1.html(html, height=800, scrolling=True)
 
         # ---------------- HTML TO PDF DOWNLOAD ----------------
-        pdf_file = convert_html_to_pdf(html)
+        with st.spinner("Generating your resume... Please wait"):
+            pdf_file = convert_html_to_pdf(html)
 
         st.download_button(
             label="📥 Download Resume",
