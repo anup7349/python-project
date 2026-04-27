@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @page {
+            size: A4;
+            margin: 10px;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 10px;
+            color: #333;
+            font-size: 10.5px;
+            line-height: 1.2;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 2px;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 11px;
+            color: #666;
+        }
+
+        .contact {
+            text-align: center;
+            font-size: 10px;
+            margin-bottom: 6px;
+        }
+
+        h2 {
+            font-size: 11px;
+            margin-bottom: 2px;
+            border-bottom: 1px solid #aaa;
+            padding-bottom: 1px;
+        }
+
+        .section {
+            margin-bottom: 5px;
+        }
+
+        .desc {
+            font-size: 10.5px;
+            line-height: 1.2;
+            white-space: pre-line;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>{{name}}</h1>
+<div class="title">{{role}}</div>
+<div class="contact">
+    {{phone}} • {{email}} • {{linkedin}} • {{github}}
+</div>
+
+<div class="section">
+    <h2>Summary</h2>
+    <div class="desc">{{summary}}</div>
+</div>
+
+<div class="section">
+    <h2>Experience</h2>
+    <div class="desc">{{internship}}</div>
+</div>
+
+<div class="section">
+    <h2>Education</h2>
+    <div class="desc">{{education}}</div>
+</div>
+
+<div class="section">
+    <h2>Skills</h2>
+    <div class="desc">{{skills}}</div>
+</div>
+
+<div class="section">
+    <h2>Projects / Open Source Work</h2>
+    <div class="desc">{{project_desc}}</div>
+</div>
+
+<div class="section">
+    <h2>Certifications</h2>
+    <div class="desc">{{certifications}}</div>
+</div>
+
+<div class="section">
+    <h2>Soft Skills</h2>
+    <div class="desc">{{soft_skills}}</div>
+</div>
+
+</body>
+</html>

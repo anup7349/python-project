@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+    color: #444;
+}
+
+.resume {
+    width: 800px;
+    margin: 20px auto;
+    background: white;
+    box-shadow: 0 0 18px rgba(0,0,0,0.2);
+}
+
+.header {
+    background: #e8eceb;
+    text-align: center;
+    padding: 35px 20px 25px;
+}
+
+.header h1 {
+    margin: 0;
+    letter-spacing: 4px;
+    font-size: 32px;
+    font-weight: normal;
+    color: #5f706d;
+}
+
+.header p {
+    margin: 6px 0 12px;
+    letter-spacing: 2px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.line {
+    width: 45px;
+    height: 2px;
+    background: #5f706d;
+    margin: auto;
+}
+
+.content {
+    display: flex;
+}
+
+.sidebar {
+    width: 30%;
+    background: #f6f7f7;
+    padding: 30px 25px;
+}
+
+.main {
+    width: 70%;
+    padding: 30px;
+}
+
+.contact-item {
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.section {
+    margin-bottom: 25px;
+}
+
+h2 {
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: #6c7a78;
+    margin-bottom: 12px;
+}
+
+h3 {
+    font-size: 13px;
+    margin-bottom: 3px;
+    color: #555;
+}
+
+p {
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.skill {
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+ul {
+    padding-left: 18px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="resume">
+
+    <div class="header">
+        <h1>{{name}}</h1>
+        <p>{{role}}</p>
+        <div class="line"></div>
+    </div>
+
+    <div class="content">
+
+        <div class="sidebar">
+
+            <div class="section">
+                <div class="contact-item">📞 {{phone}}</div>
+                <div class="contact-item">✉️ {{email}}</div>
+                <div class="contact-item">🔗 {{linkedin}}</div>
+                <div class="contact-item">💻 {{github}}</div>
+            </div>
+
+            <div class="section">
+                <h2>EDUCATION</h2>
+                <p>{{education}}</p>
+            </div>
+
+            <div class="section">
+                <h2>EXPERTISE</h2>
+                <p>{{skills}}</p>
+            </div>
+
+            <div class="section">
+                <h2>SOFT SKILLS</h2>
+                <p>{{soft_skills}}</p>
+            </div>
+
+        </div>
+
+        <div class="main">
+
+            <div class="section">
+                <h2>SUMMARY STATEMENT</h2>
+                <p>{{summary}}</p>
+            </div>
+
+            <div class="section">
+                <h2>EXPERIENCE</h2>
+                <p>{{internship}}</p>
+            </div>
+
+            <div class="section">
+                <h2>PROJECTS</h2>
+                <p>{{project_desc}}</p>
+            </div>
+
+            <div class="section">
+                <h2>CERTIFICATIONS</h2>
+                <p>{{certifications}}</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
