@@ -23,14 +23,20 @@ def convert_html_to_pdf(html_content):
     pdf_path = html_path.replace(".html", ".pdf")
 
     with sync_playwright() as p:
-        browser = p.chromium.launch()
+        browser = p.chromium.launch(
+            executable_path="/usr/bin/chromium",
+            args=["--no-sandbox"]
+        )
+
         page = browser.new_page()
         page.goto(f"file:///{html_path}", wait_until="networkidle")
+
         page.pdf(
             path=pdf_path,
             format="A4",
             print_background=True
         )
+
         browser.close()
 
     with open(pdf_path, "rb") as pdf_file:
