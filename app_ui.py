@@ -1,5 +1,40 @@
 import streamlit as st
-from fpdf import FPDF
+import base64
+import tempfile
+from playwright.sync_api import sync_playwright
+
+# ---------------- TEMPLATE LOADER ----------------
+def load_template(template_name):
+    with open(f"templates/{template_name}.html", "r", encoding="utf-8") as file:
+        return file.read()
+
+# ---------------- IMAGE CONVERTER ----------------
+def get_image_base64(file):
+    if file is not None:
+        return base64.b64encode(file.read()).decode()
+    return ""
+
+# ---------------- HTML TO PDF CONVERTER ----------------
+def convert_html_to_pdf(html_content):
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".html", mode="w", encoding="utf-8") as f:
+        f.write(html_content)
+        html_path = f.name
+
+    pdf_path = html_path.replace(".html", ".pdf")
+
+    with sync_playwright() as p:
+        browser = p.chromium.launch()
+        page = browser.new_page()
+        page.goto(f"file:///{html_path}", wait_until="networkidle")
+        page.pdf(
+            path=pdf_path,
+            format="A4",
+            print_background=True
+        )
+        browser.close()
+
+    with open(pdf_path, "rb") as pdf_file:
+        return pdf_file.read()
 
 def show_ui():
 
@@ -18,8 +53,13 @@ def show_ui():
     with col2:
         phone = st.text_input("Phone")
         linkedin = st.text_input("LinkedIn URL")
+        github = st.text_input("GitHub URL")
+
+    photo = st.file_uploader("Upload Profile Photo", type=["jpg", "png", "jpeg"])
 
     st.markdown("---")
+
+    summary = st.text_area("Summary")
 
     st.subheader("🎓 Education")
     education = st.text_area("Enter your education (one per line)")
@@ -41,51 +81,13 @@ def show_ui():
 
     st.markdown("---")
 
-    # ---------------- PDF CLASS ----------------
-    class ResumePDF(FPDF):
+    # ---------------- TEMPLATE SELECTION ----------------
+    st.subheader("🎨 Choose Resume Template")
 
-        def header(self):
-            self.set_font("Arial", "B", 18)
-            self.cell(0, 10, self.name, ln=True, align="C")
-
-            self.set_font("Arial", size=11)
-            self.cell(0, 8, f"{self.phone} | {self.email} | {self.linkedin}", ln=True, align="C")
-
-            self.ln(3)
-            self.set_draw_color(100, 100, 100)
-            self.line(10, self.get_y(), 200, self.get_y())
-            self.ln(6)
-
-        def section_title(self, title):
-            self.set_font("Arial", "B", 13)
-            self.cell(0, 8, title, ln=True)
-
-            self.set_draw_color(180, 180, 180)
-            self.line(10, self.get_y(), 200, self.get_y())
-            self.ln(4)
-
-        def section_body(self, text):
-            self.set_font("Arial", size=11)
-            lines = text.split("\n")
-
-            for line in lines:
-                if line.strip():
-                    self.multi_cell(0, 6, f"- {line}")
-
-            self.ln(2)
-
-        def skills_two_column(self, skills_text):
-            self.set_font("Arial", size=11)
-            skills_list = skills_text.split("\n")
-
-            for i in range(0, len(skills_list), 2):
-                left = skills_list[i]
-                right = skills_list[i+1] if i+1 < len(skills_list) else ""
-
-                self.cell(90, 6, f"- {left}")
-                self.cell(0, 6, f"- {right}", ln=True)
-
-            self.ln(3)
+    template = st.selectbox(
+        "Select Template",
+        ["template1", "template2", "template3"]
+    )
 
     # ---------------- BUTTON ----------------
     if st.button("🚀 Generate Resume"):
@@ -94,41 +96,45 @@ def show_ui():
             st.error("Please enter your name")
             return
 
-        pdf = ResumePDF()
+        # ---------------- PHOTO DATA ----------------
+        photo_base64 = get_image_base64(photo)
 
-        pdf.name = name
-        pdf.phone = phone
-        pdf.email = email
-        pdf.linkedin = linkedin
+        if photo_base64:
+            photo_data = f"data:image/png;base64,{photo_base64}"
+        else:
+            photo_data = ""
 
-        pdf.add_page()
+        # ---------------- HTML PREVIEW ----------------
+        html = load_template(template)
 
-        pdf.section_title("EDUCATION")
-        pdf.section_body(education)
+        html = html.replace("{{photo}}", photo_data)
+        html = html.replace("{{name}}", name)
+        html = html.replace("{{role}}", "")
+        html = html.replace("{{phone}}", phone)
+        html = html.replace("{{email}}", email)
+        html = html.replace("{{location}}", linkedin)
+        html = html.replace("{{linkedin}}", linkedin)
+        html = html.replace("{{github}}", github)
+        html = html.replace("{{summary}}", summary)
 
-        pdf.section_title("TECHNICAL SKILLS")
-        pdf.skills_two_column(skills)
+        html = html.replace("{{education}}", education)
+        html = html.replace("{{skills}}", skills)
+        html = html.replace("{{internship}}", internship)
+        html = html.replace("{{project_desc}}", projects)
+        html = html.replace("{{certifications}}", certifications)
+        html = html.replace("{{soft_skills}}", soft_skills)
 
-        pdf.section_title("INTERNSHIP EXPERIENCE")
-        pdf.section_body(internship)
+        st.subheader("📄 Resume Preview")
+        st.components.v1.html(html, height=800, scrolling=True)
 
-        pdf.section_title("PROJECTS")
-        pdf.section_body(projects)
+        # ---------------- HTML TO PDF DOWNLOAD ----------------
+        pdf_file = convert_html_to_pdf(html)
 
-        pdf.section_title("CERTIFICATIONS")
-        pdf.section_body(certifications)
-
-        pdf.section_title("SOFT SKILLS")
-        pdf.section_body(soft_skills)
-
-        pdf.output("resume.pdf")
-
-        with open("resume.pdf", "rb") as f:
-            st.download_button(
-                label="📥 Download Resume",
-                data=f,
-                file_name="Resume.pdf",
-                mime="application/pdf"
-            )
+        st.download_button(
+            label="📥 Download Resume",
+            data=pdf_file,
+            file_name="Resume.pdf",
+            mime="application/pdf"
+        )
 
         st.success("✅ Resume Generated Successfully!")
