@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+@page { size: A4; margin: 12px; }
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  color: #222;
+  font-size: 11px;
+}
+
+.resume {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 30%;
+  background: #243447;
+  color: white;
+  padding: 22px 18px;
+}
+
+.main {
+  width: 70%;
+  padding: 22px 26px;
+}
+
+.photo {
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 14px;
+  background: #fff;
+}
+
+.name {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.role {
+  color: #4a90e2;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.side-title {
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 16px;
+  border-bottom: 1px solid rgba(255,255,255,.5);
+  padding-bottom: 3px;
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: 13px;
+  font-weight: bold;
+  color: #243447;
+  border-bottom: 1px solid #bbb;
+  padding-bottom: 3px;
+  margin-top: 13px;
+  text-transform: uppercase;
+}
+
+.text {
+  white-space: pre-line;
+  line-height: 1.35;
+  word-break: break-word;
+  margin-top: 5px;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="resume">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+
+    <img class="photo" src="{{photo}}" alt="">
+
+    <div class="side-title">Contact</div>
+    <div class="text">
+      {{phone}}<br>
+      {{email}}
+    </div>
+
+    <div class="side-title">Links</div>
+    <div class="text">
+      LinkedIn: {{linkedin}}<br>
+      GitHub: {{github}}
+    </div>
+
+    <div class="side-title">Skills</div>
+    <div class="text">{{skills}}</div>
+
+    <div class="side-title">Soft Skills</div>
+    <div class="text">{{soft_skills}}</div>
+
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+
+    <div class="name">{{name}}</div>
+    
+
+    <div class="title">Professional Summary</div>
+    <div class="text">{{summary}}</div>
+
+    <div class="title">Experience</div>
+    <div class="text">{{experience}}</div>
+
+    <div class="title">Projects</div>
+    <div class="text">{{project_desc}}</div>
+
+    <div class="title">Education</div>
+    <div class="text">{{education}}</div>
+
+    <div class="title">Certifications</div>
+    <div class="text">{{certifications}}</div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
