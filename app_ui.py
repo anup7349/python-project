@@ -24,8 +24,10 @@ def convert_html_to_pdf(html_content):
     pdf_path = html_path.replace(".html", ".pdf")
 
     with sync_playwright() as p:
+
         browser = p.chromium.launch(
-            args=["--no-sandbox"]
+            executable_path="/usr/bin/chromium",
+            args=["--no-sandbox", "--disable-dev-shm-usage"]
         )
 
         page = browser.new_page()
@@ -49,7 +51,7 @@ def show_ui():
     if "selected_template" not in st.session_state:
         st.session_state.selected_template = None
 
-    # ---------------- TEMPLATE GALLERY PAGE ----------------
+    # ---------------- TEMPLATE GALLERY ----------------
     if st.session_state.selected_template is None:
 
         st.title("🎨 Choose Resume Template")
@@ -70,7 +72,7 @@ def show_ui():
                 if os.path.exists(image_path):
                     st.image(image_path, use_container_width=True)
                 else:
-                    st.warning(f"Image missing: {template}.png")
+                    st.warning(f"Missing image: {template}.png")
 
                 if st.button("Use Template", key=template):
                     st.session_state.selected_template = template
@@ -128,24 +130,22 @@ def show_ui():
 
     st.markdown("---")
 
-    # ---------------- BUTTON ----------------
+    # ---------------- GENERATE BUTTON ----------------
     if st.button("🚀 Generate Resume"):
 
         if not name:
             st.error("Please enter your name")
             return
 
+        # ---------------- PHOTO ----------------
         photo_base64 = get_image_base64(photo)
+        photo_data = f"data:image/png;base64,{photo_base64}" if photo_base64 else ""
 
-        if photo_base64:
-            photo_data = f"data:image/png;base64,{photo_base64}"
-        else:
-            photo_data = ""
-
-        # Use selected template from gallery
+        # ---------------- LOAD TEMPLATE ----------------
         template = st.session_state.selected_template
         html = load_template(template)
 
+        # ---------------- REPLACE DATA ----------------
         html = html.replace("{{photo}}", photo_data)
         html = html.replace("{{name}}", name)
         html = html.replace("{{role}}", "")
@@ -161,17 +161,19 @@ def show_ui():
         html = html.replace("{{certifications}}", certifications)
         html = html.replace("{{soft_skills}}", soft_skills)
 
+        # ---------------- PREVIEW ----------------
         st.subheader("📄 Resume Preview")
-        st.components.v1.html(html, height=800, scrolling=True)
+        st.components.v1.html(html, height=900, scrolling=True)
 
+        # ---------------- PDF GENERATION ----------------
         with st.spinner("Generating your resume... Please wait"):
             pdf_file = convert_html_to_pdf(html)
 
         st.download_button(
-            label="📥 Download Resume",
+            label="⬇️ Download PDF Resume",
             data=pdf_file,
             file_name="Resume.pdf",
             mime="application/pdf"
         )
 
-        st.success("✅ Resume Generated Successfully!")
+        st.success("🎉 Your resume is ready! Download it below.")
