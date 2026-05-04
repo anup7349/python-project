@@ -9,24 +9,24 @@ Welcome to Resume Builder AI. Your privacy is important to us. This Privacy Poli
 
 ## 2. Information We Do Not Collect  
 We respect your privacy.  
-Resume Builder AI does not collect, store, or share any personal information on our servers.
+Resume Builder AI does not collect or store personal data on our servers.
 
 ---
 
 ## 3. Information You Provide  
 
-The app allows users to enter details such as:
+The app allows users to enter information such as:
 
 - Name  
 - Contact information (email, phone)  
 - Education and experience  
 - Skills and certifications  
 
-👉 This information is:
+This information is:
 
 - Used only for generating resumes  
-- Processed locally or temporarily  
-- Not stored or transmitted to any database  
+- Processed temporarily during the app session  
+- Not stored, saved, or shared with any third party  
 
 ---
 
@@ -35,41 +35,44 @@ The app allows users to enter details such as:
 All data entered by users:
 
 - Remains under the user’s control  
-- Is used only during the session  
-- Is not retained after the resume is generated  
+- Is used only to generate the resume  
+- Is not retained after the session ends  
 
 ---
 
 ## 5. Third-Party Services  
 
-This application uses:
+This application uses third-party services such as:
 
 - Streamlit Cloud (for hosting the application)
 
-These services may process requests temporarily.
+These services may process requests temporarily to deliver app functionality. We do not control their data handling practices.
 
 ---
 
 ## 6. Data Security  
 
-We take reasonable steps to protect user data.  
-Since no personal data is stored, risk is minimal.
+We take reasonable measures to protect user data.  
+Since no personal data is stored by us, the risk of data exposure is minimized.
 
 ---
 
-## 7. Children’s Privacy  
+## 7. Children's Privacy  
 
-This app is not intended for users under 13.  
-We do not knowingly collect data from children.
+This app is not intended for children under the age of 13.  
+We do not knowingly collect personal data from children.
 
 ---
 
-## 8. Changes to This Policy  
+## 8. Changes to This Privacy Policy  
 
-We may update this Privacy Policy in the future.
+We may update this Privacy Policy from time to time.  
+Any changes will be reflected by updating the "Effective Date" above.
 
 ---
 
 ## 9. Contact  
+
+If you have any questions or concerns about this Privacy Policy, you may contact us at:
 
 Email: anupsnaik7349@gmail.com
