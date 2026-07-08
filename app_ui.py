@@ -2,7 +2,10 @@ import streamlit as st
 import base64
 import tempfile
 import os
+import subprocess
+import sys
 from playwright.sync_api import sync_playwright
+
 
 # ---------------- TEMPLATE LOADER ----------------
 def load_template(template_name):
@@ -17,6 +20,21 @@ def get_image_base64(file):
     return ""
 
 
+# ---------------- PLAYWRIGHT BROWSER INSTALLER ----------------
+def ensure_playwright_chromium():
+    browser_path = os.path.expanduser(
+        "~/.cache/ms-playwright/chromium_headless_shell-1228/chrome-headless-shell-linux64/chrome-headless-shell"
+    )
+
+    if os.path.exists(browser_path):
+        return
+
+    subprocess.run(
+        [sys.executable, "-m", "playwright", "install", "chromium"],
+        check=True
+    )
+
+
 # ---------------- HTML TO PDF CONVERTER ----------------
 def convert_html_to_pdf(html_content):
     html_path = None
@@ -24,6 +42,8 @@ def convert_html_to_pdf(html_content):
     browser = None
 
     try:
+        ensure_playwright_chromium()
+
         with tempfile.NamedTemporaryFile(
             delete=False,
             suffix=".html",
@@ -36,22 +56,15 @@ def convert_html_to_pdf(html_content):
         pdf_path = html_path.replace(".html", ".pdf")
 
         with sync_playwright() as p:
-            launch_options = {
-                "headless": True,
-                "args": [
+            browser = p.chromium.launch(
+                headless=True,
+                args=[
                     "--no-sandbox",
                     "--disable-setuid-sandbox",
                     "--disable-dev-shm-usage",
                     "--disable-gpu",
-                    "--disable-software-rasterizer",
-                    "--disable-extensions",
                 ],
-            }
-
-            if os.path.exists("/usr/bin/chromium"):
-                launch_options["executable_path"] = "/usr/bin/chromium"
-
-            browser = p.chromium.launch(**launch_options)
+            )
 
             page = browser.new_page()
             page.goto(f"file://{html_path}", wait_until="load")
@@ -172,15 +185,12 @@ def show_ui():
             st.error("Please enter your name")
             return
 
-        # ---------------- PHOTO ----------------
         photo_base64 = get_image_base64(photo)
         photo_data = f"data:image/png;base64,{photo_base64}" if photo_base64 else ""
 
-        # ---------------- LOAD TEMPLATE ----------------
         template = st.session_state.selected_template
         html = load_template(template)
 
-        # ---------------- REPLACE DATA ----------------
         html = html.replace("{{photo}}", photo_data)
         html = html.replace("{{name}}", name)
         html = html.replace("{{role}}", "")
@@ -196,11 +206,9 @@ def show_ui():
         html = html.replace("{{certifications}}", certifications)
         html = html.replace("{{soft_skills}}", soft_skills)
 
-        # ---------------- PREVIEW ----------------
         st.subheader("Resume Preview")
         st.components.v1.html(html, height=900, scrolling=True)
 
-        # ---------------- PDF GENERATION ----------------
         try:
             with st.spinner("Generating your resume... Please wait"):
                 pdf_file = convert_html_to_pdf(html)
