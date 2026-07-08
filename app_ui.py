@@ -36,16 +36,22 @@ def convert_html_to_pdf(html_content):
         pdf_path = html_path.replace(".html", ".pdf")
 
         with sync_playwright() as p:
-            browser = p.chromium.launch(
-                headless=True,
-                args=[
+            launch_options = {
+                "headless": True,
+                "args": [
                     "--no-sandbox",
                     "--disable-setuid-sandbox",
                     "--disable-dev-shm-usage",
                     "--disable-gpu",
-                    "--single-process",
+                    "--disable-software-rasterizer",
+                    "--disable-extensions",
                 ],
-            )
+            }
+
+            if os.path.exists("/usr/bin/chromium"):
+                launch_options["executable_path"] = "/usr/bin/chromium"
+
+            browser = p.chromium.launch(**launch_options)
 
             page = browser.new_page()
             page.goto(f"file://{html_path}", wait_until="load")
