@@ -98,3 +98,4 @@ def show_ui():
                 for file in os.listdir("templates")
                 if file.endswith(".html")
             ]
+        )
