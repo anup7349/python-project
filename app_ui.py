@@ -107,7 +107,7 @@ def show_ui():
                 image_path = f"images/{template}.png"
 
                 if os.path.exists(image_path):
-                    st.image(image_path, width="stretch")
+                    st.image(image_path,use_container_width=True)
                 else:
                     st.warning(f"Missing image: {template}.png")
 
