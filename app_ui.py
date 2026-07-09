@@ -99,7 +99,7 @@ def show_ui():
                 if file.endswith(".html")
             ]
         )
-         cols = st.columns(3)
+        cols = st.columns(3)
 
         for i, template in enumerate(templates):
             with cols[i % 3]:
