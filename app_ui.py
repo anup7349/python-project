@@ -99,3 +99,123 @@ def show_ui():
                 if file.endswith(".html")
             ]
         )
+         cols = st.columns(3)
+
+        for i, template in enumerate(templates):
+            with cols[i % 3]:
+
+                image_path = f"images/{template}.png"
+
+                if os.path.exists(image_path):
+                    st.image(image_path, width="stretch")
+                else:
+                    st.warning(f"Missing image: {template}.png")
+
+                if st.button("Use Template", key=template):
+                    st.session_state.selected_template = template
+                    st.rerun()
+
+        return
+
+    # ---------------- FORM PAGE ----------------
+    st.title("Resume Builder")
+    st.markdown(f"Selected Template: **{st.session_state.selected_template}**")
+
+    if st.button("Change Template"):
+        st.session_state.selected_template = None
+        st.rerun()
+
+    st.markdown("---")
+
+    # ---------------- INPUT UI ----------------
+    st.subheader("Personal Information")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        name = st.text_input("Full Name")
+
+    with col2:
+        email = st.text_input("Email")
+        phone = st.text_input("Phone")
+        linkedin = st.text_input("LinkedIn URL")
+        github = st.text_input("GitHub URL")
+
+    photo = st.file_uploader("Upload Profile Photo", type=["jpg", "png", "jpeg"])
+
+    st.markdown("---")
+
+    summary = st.text_area("Summary")
+
+    st.subheader("Education")
+    education = st.text_area("Enter your education (one per line)")
+
+    st.subheader("Technical Skills")
+    skills = st.text_area("Enter your skills (one per line)")
+
+    st.subheader("Experience")
+    experience = st.text_area("Enter your experience")
+
+    st.subheader("Projects")
+    projects = st.text_area("Enter project details")
+
+    st.subheader("Certifications")
+    certifications = st.text_area("Enter certifications")
+
+    st.subheader("Soft Skills")
+    soft_skills = st.text_area("Enter soft skills")
+
+    st.markdown("---")
+
+    # ---------------- GENERATE BUTTON ----------------
+    if st.button("Generate Resume"):
+
+        if not name:
+            st.error("Please enter your name")
+            return
+
+        # ---------------- PHOTO ----------------
+        photo_base64 = get_image_base64(photo)
+        photo_data = f"data:image/png;base64,{photo_base64}" if photo_base64 else ""
+
+        # ---------------- LOAD TEMPLATE ----------------
+        template = st.session_state.selected_template
+        html = load_template(template)
+
+        # ---------------- REPLACE DATA ----------------
+        html = html.replace("{{photo}}", photo_data)
+        html = html.replace("{{name}}", name)
+        html = html.replace("{{role}}", "")
+        html = html.replace("{{phone}}", phone)
+        html = html.replace("{{email}}", email)
+        html = html.replace("{{linkedin}}", linkedin)
+        html = html.replace("{{github}}", github)
+        html = html.replace("{{summary}}", summary)
+        html = html.replace("{{education}}", education)
+        html = html.replace("{{skills}}", skills)
+        html = html.replace("{{experience}}", experience)
+        html = html.replace("{{project_desc}}", projects)
+        html = html.replace("{{certifications}}", certifications)
+        html = html.replace("{{soft_skills}}", soft_skills)
+
+        # ---------------- PREVIEW ----------------
+        st.subheader("Resume Preview")
+        st.components.v1.html(html, height=900, scrolling=True)
+
+        # ---------------- PDF GENERATION ----------------
+        try:
+            with st.spinner("Generating your resume... Please wait"):
+                pdf_file = convert_html_to_pdf(html)
+
+            st.success("Your resume is ready! Download it below.")
+
+            st.download_button(
+                label="Download PDF Resume",
+                data=pdf_file,
+                file_name="Resume.pdf",
+                mime="application/pdf"
+            )
+
+        except Exception as e:
+            st.error("Resume preview worked, but PDF generation failed.")
+            st.exception(e)
