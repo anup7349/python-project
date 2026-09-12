@@ -4,90 +4,95 @@
 
 ## 1. Overview
 
-Welcome to Resume Builder AI. Your privacy is important to us. This Privacy Policy explains how we handle your information when you use our mobile application.
+Welcome to Resume Builder AI. Your privacy is important to us.
 
----
+This Privacy Policy explains how we handle information when you use our mobile application.
 
-## 2. Information We Do Not Collect
+## 2. Information We Collect and Process
 
-We respect your privacy. Resume Builder AI does not collect or store personal data on our own servers.
-
----
-
-## 3. Information You Provide
-
-The app allows users to enter information such as:
+Resume Builder AI allows users to enter information such as:
 
 - Name
-- Contact information, such as email and phone number
-- Education and experience
+- Contact information, such as email address and phone number
+- Education and work experience
 - Skills and certifications
-- Other resume-related details
+- Other resume-related information
 
-This information is:
+This information is used to provide the resume-building functionality requested by the user.
 
-- Used only for generating resumes
-- Processed temporarily during the app session
-- Not sold by us
-- Not stored by us on our own servers
+We do not sell users' resume information.
 
----
+We do not intentionally store users' resume information on our own servers after the requested functionality has been completed.
 
-## 4. Data Usage
+## 3. Data Usage and Retention
 
-All resume data entered by users:
+Resume information entered by the user is used to generate and provide the requested resume.
 
-- Remains under the user’s control
-- Is used only to generate the resume
-- Is not retained by us after the session ends
+The information may be processed temporarily during the user's session.
 
----
+We do not intentionally retain users' resume information on our own servers after the session ends.
+
+Users should avoid entering sensitive information that is not necessary for creating their resume.
+
+## 4. Third-Party Services
+
+Resume Builder AI uses third-party services, including:
+
+- **Streamlit Cloud**, for hosting the resume builder functionality
+- **Google AdMob**, for displaying advertisements
+
+Information may be transmitted to or processed by these services when necessary to provide app functionality or advertising services.
+
+These third-party service providers may have their own privacy policies and data-handling practices. We do not control their independent data-handling practices.
 
 ## 5. Advertising
 
-Resume Builder AI uses Google AdMob to display ads in the app.
+Resume Builder AI uses Google AdMob to display advertisements.
 
-Google AdMob may collect and use information such as device information, advertising ID, app activity, approximate location, and other data to provide, measure, and improve ads.
+Google AdMob and its advertising partners may collect and process information such as device information, advertising ID, IP address, approximate location, app activity, and advertising interactions.
 
-Google may use this data according to Google’s Privacy Policy.
+This information may be used to provide, personalize, measure, and improve advertising, subject to Google's applicable policies and users' privacy choices.
 
-You can learn more about how Google uses information from apps that use its services here:
+For more information about how Google uses information from apps that use its services, please visit:
 
 https://policies.google.com/technologies/partner-sites
 
----
+## 6. Data Security
 
-## 6. Third-Party Services
+We take reasonable measures to protect information processed through Resume Builder AI.
 
-This application uses third-party services, including:
+Because we do not intentionally store users' resume information on our own servers after the session ends, we limit the amount of resume information retained by us.
 
-- Streamlit Cloud, for hosting the resume builder page
-- Google AdMob, for showing advertisements
+However, no method of electronic transmission or storage can be guaranteed to be completely secure.
 
-These services may process information temporarily to provide app functionality or advertising services. We do not control their independent data handling practices.
+## 7. Children's Privacy
 
----
+Resume Builder AI is not intended for children under the age of 13.
 
-## 7. Data Security
+We do not knowingly collect personal information directly from children under the age of 13.
 
-We take reasonable measures to protect user data. Since personal resume information is not stored by us on our own servers, the risk of data exposure from our side is minimized.
+If you believe that a child has provided personal information through the application, please contact us using the email address below.
 
----
+## 8. Changes to This Privacy Policy
 
-## 8. Children's Privacy
+We may update this Privacy Policy from time to time.
 
-This app is not intended for children under the age of 13. We do not knowingly collect personal data from children.
+When we make changes, we will update the Effective Date at the top of this Privacy Policy.
 
----
+We encourage users to review this Privacy Policy periodically for any changes.
 
-## 9. Changes to This Privacy Policy
+## 9. Your Privacy Choices
 
-We may update this Privacy Policy from time to time. Any changes will be reflected by updating the “Effective Date” above.
+You may choose what personal information you enter into Resume Builder AI.
 
----
+You should only provide information that is necessary for creating your resume and should avoid entering sensitive personal information that is not required for the application's functionality.
 
-## 10. Contact
+For advertising-related privacy choices, users may be able to manage their preferences through Google's available privacy and advertising settings.
 
-If you have any questions or concerns about this Privacy Policy, you may contact us at:
+## 10. Contact Us
 
-Email: anupsnaik7349@gmail.com
+If you have any questions, concerns, or requests regarding this Privacy Policy or the handling of your information, please contact us at:
+
+**Email:** anupsnaik7349@gmail.com
+
+**App:** Resume Builder AI
